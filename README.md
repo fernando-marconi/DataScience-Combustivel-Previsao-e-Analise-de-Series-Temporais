@@ -50,9 +50,9 @@ O modelo demonstrou um alto poder preditivo, validado pelas métricas abaixo e c
 
 ### Visualização Final e Previsão 
 
-[Image of Time Series Forecast vs Actuals]
+![SARIMAX](grafico/sarimax_previsao_final.png)
 
 
-A previsão futura (linha preta) sugere uma **tendência de alta constante e gradual** no preço médio nacional.
+A previsão futura (linha laranja) sugere uma **tendência de alta constante e gradual** no preço médio nacional.
 
 **Conclusão para o Negócio:** *Stakeholders* devem planejar estratégias de compra e estoque com base em um custo crescente (previsão de **R\$6.19 a R\$6.49** nos próximos 6 meses).
