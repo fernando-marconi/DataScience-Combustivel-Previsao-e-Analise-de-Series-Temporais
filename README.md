@@ -8,7 +8,7 @@ O principal objetivo é **prever a variação do preço médio nacional de venda
 
 ## Dependência (Camada Ouro)
 
-Este projeto utiliza como base o arquivo analítico de alta qualidade gerado pelo meu repositório de **Engenharia de Dados** (https://github.com/fernando-marconi/Projeto-Pipeline-Combustivel). O ponto de partida é o arquivo `.parquet` com os preços médios mensais já tratados.
+Este projeto utiliza como base o arquivo analítico de alta qualidade gerado pelo meu repositório de [**Engenharia de Dados**](https://github.com/fernando-marconi/Projeto-Pipeline-Combustivel). O ponto de partida é o arquivo `.parquet` com os preços médios mensais já tratados.
 
 ## Stack Tecnológico
 
