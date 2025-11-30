@@ -37,7 +37,7 @@ O modelo **SARIMAX** foi escolhido para capturar as componentes de Autoregressã
 
 ---
 
-## ✅ Resultados
+## Resultados
 
 O modelo demonstrou um alto poder preditivo, validado pelas métricas abaixo e confirmado pela **sobreposição visual** entre a previsão (marcadores) e a realidade (linha verde).
 
