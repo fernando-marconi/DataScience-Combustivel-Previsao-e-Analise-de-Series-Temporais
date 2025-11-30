@@ -2,60 +2,57 @@
 
 ## Visão Geral e Objetivo de Negócio
 
-Este projeto de **Ciência de Dados** aplica técnicas avançadas de **Análise Preditiva e Séries Temporais** sobre a Camada Ouro de dados de preços de combustíveis.
+Este projeto de **Ciência de Dados** aplica técnicas de **Análise Preditiva e Séries Temporais** sobre a Camada Ouro de dados de preços de combustíveis.
 
-O principal objetivo é **prever a variação do preço médio nacional de venda** para o produto mais volátil (Gasolina ou Diesel) nos próximos 6 a 12 meses. O projeto visa fornecer *insights* estratégicos para empresas do setor de energia ou consumidores, ajudando na tomada de decisões e na mitigação de riscos financeiros.
+O principal objetivo é gerar **previsões de preço de curto prazo** para a Gasolina, fornecendo *insights* estratégicos para a tomada de decisões no setor de energia.
 
-## Dependência (Camada Ouro)
+## Conexão com o Pipeline de Engenharia de Dados (Camada Ouro)
 
-Este projeto utiliza como base o arquivo analítico de alta qualidade gerado pelo meu repositório de [**Engenharia de Dados**](https://github.com/fernando-marconi/Projeto-Pipeline-Combustivel). O ponto de partida é o arquivo `.parquet` com os preços médios mensais já tratados.
+Este projeto é a segunda etapa do meu portfólio. Ele utiliza como base o arquivo analítico gerado do repositório de [**Engenharia de Dados**](https://github.com/fernando-marconi/Projeto-Pipeline-Combustivel). O ponto de partida é o arquivo `.parquet` com os preços médios mensais já tratados.
 
 ## Stack Tecnológico
 
 | Categoria | Tecnologia | Uso no Projeto |
 | :--- | :--- | :--- |
 | **Linguagem** | `Python` | Ambiente de modelagem e análise. |
-| **Ingestão/Preparação**| `Pandas` | Leitura da Camada Ouro (`.parquet`) e criação de *Lag Features* (variáveis de tempo). |
-| **Modelagem TS** | `Statsmodels` (ARIMA/SARIMAX) ou `Prophet` | Implementação do modelo de Séries Temporais para previsão de preços. |
-| **Modelagem ML** | `Scikit-learn` ou `XGBoost` | Opcional: Uso de modelos de Regressão para comparação de performance. |
-| **Visualização** | `Matplotlib`, `Seaborn` | Análise Exploratória (EDA) e visualização de previsões vs. realidade. |
+| **Ingestão/Preparação**| Arquivo `.parquet` (Cama Ouro) | Ponto de partida do projeto, contendo o preço médio mensal limpo. |
+| **Modelagem TS** | `Statsmodels` (SARIMAX) | Implementação do modelo de Séries Temporais. |
+| **Visualização** | `Pandas`, `Matplotlib`, `Seaborn` | Análise Exploratória (EDA) e visualização das previsões. |
 
 ---
 
-## Metodologia de Ciência de Dados
+## Metodologia e Resultados Preditivos
 
 O projeto segue um fluxo estruturado, desde a preparação dos dados até a avaliação do modelo:
 
-### 1. Ingestão e Análise Exploratória (EDA)
+### 1. Preparação da Série
+* **Série Temporal (Target):** Preço Médio Nacional da Gasolina, isolado e ajustado para frequência mensal (`ts`).
+* **Estacionariedade:** O **Teste ADF** confirmou que a série **NÃO é estacionária** (p-value: 0.2280), justificando a diferenciação (`d=1`) no modelo.
 
-* **Carregamento:** Leitura do arquivo `analitico_dados_combustivel.parquet` (Camada Ouro).
-* **Limpeza da Série:** Verificação de *outliers* ou valores anômalos na série temporal.
-* **Decomposição:** Análise da série em seus componentes de **Tendência, Sazonalidade e Ruído** para entender o comportamento do preço. 
+### 2. Modelagem SARIMAX
+O modelo **SARIMAX** foi escolhido para capturar as componentes de Autoregressão (AR), Média Móvel (MA) e Sazonalidade (S) inerentes aos preços.
 
-[Image of Time Series Decomposition]
-
-
-### 2. Feature Engineering e Teste de Estacionariedade
-
-* **Criação de Variáveis:** Geração de **Lag Features** (preços de meses anteriores) e variáveis de tempo (mês, ano, trimestre) para enriquecer o modelo preditivo.
-* **Teste de Estacionariedade:** Aplicação do teste **Augmented Dickey-Fuller (ADF)** para verificar se a série é estacionária, um pré-requisito para modelos ARIMA/SARIMAX.
-
-### 3. Modelagem Preditiva
-
-* **Modelo Principal:** Implementação de um modelo **SARIMAX** (ou Prophet) para capturar tendências e sazonalidade nos dados.
-* **Divisão dos Dados:** Utilização de uma janela de tempo para Treinamento e Teste (ex: previsão dos últimos 6 meses com dados de treino anteriores).
-* **Ajuste de Hiperparâmetros:** Otimização dos parâmetros do modelo para minimizar o erro de previsão.
-
-### 4. Avaliação e Geração de Insights
-
-* **Métricas de Performance:** Avaliação do modelo usando métricas como **RMSE (Root Mean Square Error)** e **MAPE (Mean Absolute Percentage Error)** para quantificar a precisão da previsão.
-* **Previsão de Cenário:** Geração da previsão de preço para os próximos 6 meses.
-* **Visualização Final:** Plotagem do gráfico de **Preço Real vs. Preço Previsto**  para demonstrar a acurácia e comunicar o *insight* de negócio.
+* **Parâmetros (Exemplo):** `order = (1, 1, 1)` e `seasonal_order = (1, 1, 1, 12)`.
+* **Divisão:** A série foi dividida para treino e os últimos 6 meses foram reservados para teste de acurácia.
 
 ---
 
-## ✅ Resultados (Exemplo de Previsão)
+## ✅ Resultados
 
-*(Esta seção será preenchida com dados reais após a execução do seu código. Por enquanto, deixe como placeholder.)*
+O modelo demonstrou um alto poder preditivo, validado pelas métricas abaixo e confirmado pela **sobreposição visual** entre a previsão (marcadores) e a realidade (linha verde).
 
-O modelo de Séries Temporais alcançou um **MAPE de X%** no período de teste, indicando uma alta precisão na previsão de preços. A previsão para o próximo trimestre sugere uma tendência de **[AUMENTO/ESTABILIDADE/QUEDA]** com base nos padrões históricos.
+### Métricas de Performance (Conjunto de Teste)
+
+| Métrica | Valor | Interpretação |
+| :--- | :--- | :--- |
+| **MAPE** | **1.64%** | O erro médio de previsão é de apenas 1.64%, um resultado de **alta acurácia**. |
+| **RMSE** | 0.1356 | Excelente valor para a faixa de preço analisada. |
+
+### Visualização Final e Previsão 
+
+[Image of Time Series Forecast vs Actuals]
+
+
+A previsão futura (linha preta) sugere uma **tendência de alta constante e gradual** no preço médio nacional.
+
+**Conclusão para o Negócio:** *Stakeholders* devem planejar estratégias de compra e estoque com base em um custo crescente (previsão de **R\$6.19 a R\$6.49** nos próximos 6 meses).
